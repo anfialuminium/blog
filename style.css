@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #2e5541;
+    --primary-dark: #234232;
+    --accent: #c4d71f;
+    --accent-hover: #a8bf1a;
+    --light-bg: #f3f4f6;
+    --white: #ffffff;
+    --text: #1f1f1f;
+    --muted: #5f5f5f;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    --shadow-hover: 0 14px 40px rgba(0, 0, 0, 0.12);
+    --transition: all 0.3s ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Assistant', sans-serif;
+    margin: 0;
+    background: var(--light-bg);
+    color: var(--text);
+    line-height: 1.6;
+    direction: rtl;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary), #3f6c54);
+    color: var(--white);
+    padding: 2rem 1rem;
+    text-align: center;
+    border-bottom: 4px solid var(--accent);
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+header .logo {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+header .logo:hover {
+    transform: scale(1.05);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+header p {
+    margin: 0.5rem 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Container */
+.container {
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--accent);
+    color: var(--text);
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-danger {
+    background: #d32f2f;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #b71c1c;
+}
+
+.btn-small {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+/* Cards */
+.card {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    margin-bottom: 2rem;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-img {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.card-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.card-content {
+    padding: 2rem;
+}
+
+.card-content h2, .card-content h3 {
+    margin: 0 0 1rem;
+    color: var(--primary);
+}
+
+.card-content p {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+}
+
+.post-meta {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+/* Blog Grid */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+textarea.form-control {
+    min-height: 200px;
+    resize: vertical;
+}
+
+/* Admin Dashboard */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.admin-table th, .admin-table td {
+    padding: 1rem;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+    background: var(--primary);
+    color: white;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Footer */
+footer {
+    background: var(--primary);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    .container {
+        margin: 1.5rem auto;
+    }
+    .card-img {
+        height: 200px;
+    }
+}

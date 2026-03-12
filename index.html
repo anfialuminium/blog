@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אנפי - הבלוג שלנו</title>
+    <link rel="icon" type="image/png" href="../קטלוג דיגיטלי/catalog/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+
+<header>
+    <a href="index.html">
+        <img src="../קטלוג דיגיטלי/catalog/logo white.png" alt="אנפי לוגו" class="logo">
+    </a>
+    <div style="margin-bottom: 1rem;">
+        <a href="../קטלוג דיגיטלי/catalog/index.html" class="btn btn-small" style="background: white; color: var(--primary); border: 2px solid var(--accent);">חזרה לקטלוג המוצרים</a>
+    </div>
+    <h1>הבלוג של אנפי</h1>
+    <p>חדשות, עדכונים וטיפים מעולם האלומיניום והפרזול</p>
+</header>
+
+<main class="container">
+    <div id="blog-posts" class="blog-grid">
+        <!-- Posts will be loaded here via JS -->
+    </div>
+    
+    <div id="no-posts" style="display: none; text-align: center; padding: 3rem;">
+        <h3>עדיין אין פוסטים בבלוג.</h3>
+        <p>חזרו בקרוב לעדכונים חדשים!</p>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 אנפי יבוא ושיווק בע"מ | כל הזכויות שמורות</p>
+    <div style="margin-top: 1rem;">
+        <a href="admin/index.html" style="color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.8rem;">ניהול בלוג</a>
+    </div>
+</footer>
+
+<script src="blog.js"></script>
+</body>
+</html>
