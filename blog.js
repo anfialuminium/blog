@@ -58,8 +58,14 @@ async function renderPosts() {
 }
 
 function truncateText(text, length) {
-    if (text.length <= length) return text;
-    return text.substring(0, length) + '...';
+    const cleanText = stripHtml(text);
+    if (cleanText.length <= length) return cleanText;
+    return cleanText.substring(0, length) + '...';
+}
+
+function stripHtml(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
 }
 
 // Initialize

@@ -252,3 +252,49 @@ footer {
         height: 200px;
     }
 }
+
+/* Post Content Formatting */
+.post-content-text img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.post-content-text iframe {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.ql-align-center {
+    text-align: center;
+}
+
+.ql-align-right {
+    text-align: right;
+}
+
+.ql-align-left {
+    text-align: left;
+}
+
+.post-content-text blockquote {
+    border-right: 4px solid var(--accent);
+    padding-right: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--muted);
+    font-style: italic;
+    background: #f9f9f9;
+    padding: 1rem 1.5rem 1rem 1rem;
+    border-radius: 0 10px 10px 0;
+}
+
+.post-content-text h1, .post-content-text h2, .post-content-text h3 {
+    color: var(--primary);
+    margin-top: 2rem;
+}
+
+.post-content-text ul, .post-content-text ol {
+    padding-right: 2rem;
+    margin: 1.5rem 0;
+}

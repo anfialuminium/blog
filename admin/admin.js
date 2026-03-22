@@ -19,6 +19,28 @@ const postIdInput = document.getElementById('post-id');
 const postTitleInput = document.getElementById('post-title');
 const postImageInput = document.getElementById('post-image');
 const postContentInput = document.getElementById('post-content');
+const htmlEditor = document.getElementById('html-editor');
+const toggleHtmlBtn = document.getElementById('toggle-html');
+const editorContainer = document.getElementById('editor-container');
+
+let isHtmlView = false;
+
+// Initialize Quill Editor
+const quill = new Quill('#editor-container', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'align': [] }],
+            ['link', 'image', 'video'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['clean']
+        ]
+    },
+    placeholder: 'כתוב את תוכן הפוסט כאן...'
+});
 
 // Check Login State
 if (sessionStorage.getItem('anfi_admin_logged_in') === 'true') {
@@ -86,6 +108,7 @@ async function renderAdminPosts() {
             <td>${dateStr}</td>
             <td><strong>${post.title}</strong></td>
             <td class="admin-actions">
+                <a href="../post.html?id=${post.id}" target="_blank" class="btn btn-small" style="background: #e3f2fd; color: #1976d2; text-decoration: none;">צפה</a>
                 <button class="btn btn-small" onclick="editPost('${post.id}')">ערוך</button>
                 <button class="btn btn-small btn-danger" onclick="deletePost('${post.id}')">מחק</button>
             </td>
@@ -126,7 +149,16 @@ window.editPost = async function(id) {
         postIdInput.value = post.id;
         postTitleInput.value = post.title;
         postImageInput.value = post.image_url || '';
-        postContentInput.value = post.content;
+        quill.root.innerHTML = post.content;
+        htmlEditor.value = post.content;
+        if (isHtmlView) {
+            // Force reset to visual view without triggering animation/logic issues
+            isHtmlView = false;
+            htmlEditor.style.display = 'none';
+            editorContainer.style.display = 'block';
+            document.querySelector('.ql-toolbar').style.display = 'block';
+            toggleHtmlBtn.innerText = 'ערוך HTML </>';
+        }
         postModal.style.display = 'block';
     } catch (error) {
         console.error('Error fetching post for edit:', error);
@@ -139,6 +171,12 @@ addPostBtn.addEventListener('click', () => {
     modalTitle.innerText = 'הוספת פוסט חדש';
     postIdInput.value = '';
     postForm.reset();
+    quill.setContents([]);
+    htmlEditor.value = '';
+    
+    // Reset to Visual view if in HTML view
+    if (isHtmlView) toggleHtmlBtn.click();
+    
     postModal.style.display = 'block';
 });
 
@@ -152,13 +190,39 @@ window.onclick = function(event) {
     }
 }
 
+// Toggle HTML Source
+toggleHtmlBtn.addEventListener('click', () => {
+    if (!isHtmlView) {
+        // Switching to HTML view
+        htmlEditor.value = quill.root.innerHTML;
+        editorContainer.style.display = 'none';
+        document.querySelector('.ql-toolbar').style.display = 'none';
+        htmlEditor.style.display = 'block';
+        toggleHtmlBtn.innerText = 'חזרה לעורך ויזואלי';
+        isHtmlView = true;
+    } else {
+        // Switching to Quill view
+        quill.root.innerHTML = htmlEditor.value;
+        htmlEditor.style.display = 'none';
+        editorContainer.style.display = 'block';
+        document.querySelector('.ql-toolbar').style.display = 'block';
+        toggleHtmlBtn.innerText = 'ערוך HTML </>';
+        isHtmlView = false;
+    }
+});
+
 postForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const id = postIdInput.value;
     const title = postTitleInput.value;
     const image_url = postImageInput.value;
-    const content = postContentInput.value;
+    
+    // Sync content if in HTML view
+    if (isHtmlView) {
+        quill.root.innerHTML = htmlEditor.value;
+    }
+    const content = quill.root.innerHTML;
 
     const postData = { title, image_url, content, updated_at: new Date().toISOString() };
 
