@@ -18,7 +18,7 @@ const modalTitle = document.getElementById('modal-title');
 const postIdInput = document.getElementById('post-id');
 const postTitleInput = document.getElementById('post-title');
 const postImageInput = document.getElementById('post-image');
-const postContentInput = document.getElementById('post-content');
+// const postContentInput = document.getElementById('post-content'); // Removed unused
 const htmlEditor = document.getElementById('html-editor');
 const toggleHtmlBtn = document.getElementById('toggle-html');
 const editorContainer = document.getElementById('editor-container');
@@ -149,17 +149,22 @@ window.editPost = async function(id) {
         postIdInput.value = post.id;
         postTitleInput.value = post.title;
         postImageInput.value = post.image_url || '';
-        quill.root.innerHTML = post.content;
-        htmlEditor.value = post.content;
+        
+        // Show modal first to ensure Quill container is visible (sometimes needed for layout/parsing)
+        postModal.style.display = 'block';
+
         if (isHtmlView) {
-            // Force reset to visual view without triggering animation/logic issues
+            // Force reset to visual view
             isHtmlView = false;
             htmlEditor.style.display = 'none';
             editorContainer.style.display = 'block';
             document.querySelector('.ql-toolbar').style.display = 'block';
             toggleHtmlBtn.innerText = 'ערוך HTML </>';
         }
-        postModal.style.display = 'block';
+
+        // Use clipboard for more robust HTML pasting
+        quill.clipboard.dangerouslyPasteHTML(post.content || '');
+        htmlEditor.value = post.content || '';
     } catch (error) {
         console.error('Error fetching post for edit:', error);
         alert('שגיאה בטעינת נתוני הפוסט');
@@ -202,7 +207,7 @@ toggleHtmlBtn.addEventListener('click', () => {
         isHtmlView = true;
     } else {
         // Switching to Quill view
-        quill.root.innerHTML = htmlEditor.value;
+        quill.clipboard.dangerouslyPasteHTML(htmlEditor.value);
         htmlEditor.style.display = 'none';
         editorContainer.style.display = 'block';
         document.querySelector('.ql-toolbar').style.display = 'block';
@@ -218,11 +223,14 @@ postForm.addEventListener('submit', async (e) => {
     const title = postTitleInput.value;
     const image_url = postImageInput.value;
     
+    let content;
     // Sync content if in HTML view
     if (isHtmlView) {
-        quill.root.innerHTML = htmlEditor.value;
+        content = htmlEditor.value;
+        quill.clipboard.dangerouslyPasteHTML(content); // Keep Quill in sync
+    } else {
+        content = quill.root.innerHTML;
     }
-    const content = quill.root.innerHTML;
 
     const postData = { title, image_url, content, updated_at: new Date().toISOString() };
 
